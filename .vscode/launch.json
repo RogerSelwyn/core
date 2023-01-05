@@ -11,11 +11,12 @@
       "program": "${file}"
     },
     {
-      "name": "Run HA",
+      "name": "HA Dev-Config",
       "type": "python",
       "request": "launch",
-      "program": "/usr/local/bin/hass",
-      "args": ["--config", "/Development/Hassio/dev-config"]
+      "module": "homeassistant",
+      "justMyCode": false,
+      "args": ["--debug", "-c", "/HADev/Hassio/dev-config"]
     },
     {
       "name": "Home Assistant",
