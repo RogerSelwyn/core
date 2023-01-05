@@ -15,7 +15,7 @@
     "GitHub.vscode-pull-request-github"
   ],
   "mounts": [
-    "source=/media/psf/Home/Documents/Development,target=/home,type=bind,consistency=cache"
+    "source=/media/psf/Home/Documents/Development,target=/dev,type=bind,consistency=cache"
   ],
   // Please keep this file in sync with settings in home-assistant/.vscode/settings.default.json
   "settings": {
