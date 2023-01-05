@@ -16,7 +16,8 @@
   ],
   "mounts": [
     "source=/media/psf/Home/Documents/Development,target=/HADev,type=bind,consistency=cache"
-  ],  // Please keep this file in sync with settings in home-assistant/.vscode/settings.default.json
+  ],
+  // Please keep this file in sync with settings in home-assistant/.vscode/settings.default.json
   "settings": {
     "python.pythonPath": "/usr/local/bin/python",
     "python.linting.enabled": true,
