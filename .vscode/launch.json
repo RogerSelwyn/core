@@ -5,6 +5,19 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Run Current file",
+      "type": "python",
+      "request": "launch",
+      "program": "${file}"
+    },
+    {
+      "name": "Run HA",
+      "type": "python",
+      "request": "launch",
+      "program": "/usr/local/bin/hass",
+      "args": ["--config", "/Development/Hassio/dev-config"]
+    },
+    {
       "name": "Home Assistant",
       "type": "python",
       "request": "launch",
