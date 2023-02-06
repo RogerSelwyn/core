@@ -84,6 +84,7 @@ homeassistant.components.camera.*
 homeassistant.components.canary.*
 homeassistant.components.clickatell.*
 homeassistant.components.clicksend.*
+homeassistant.components.configurator.*
 homeassistant.components.cover.*
 homeassistant.components.cpuspeed.*
 homeassistant.components.crownstone.*
@@ -203,6 +204,7 @@ homeassistant.components.mjpeg.*
 homeassistant.components.modbus.*
 homeassistant.components.modem_callerid.*
 homeassistant.components.moon.*
+homeassistant.components.mopeka.*
 homeassistant.components.mqtt.*
 homeassistant.components.mysensors.*
 homeassistant.components.nam.*
@@ -297,6 +299,7 @@ homeassistant.components.tile.*
 homeassistant.components.tilt_ble.*
 homeassistant.components.tolo.*
 homeassistant.components.tplink.*
+homeassistant.components.tplink_omada.*
 homeassistant.components.tractive.*
 homeassistant.components.tradfri.*
 homeassistant.components.trafikverket_ferry.*
