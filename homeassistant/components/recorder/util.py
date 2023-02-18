@@ -1,7 +1,7 @@
 """SQLAlchemy util functions."""
 from __future__ import annotations
 
-from collections.abc import Callable, Generator
+from collections.abc import Callable, Generator, Sequence
 from contextlib import contextmanager
 from datetime import date, datetime, timedelta
 import functools
@@ -17,8 +17,7 @@ from awesomeversion import (
 )
 import ciso8601
 from sqlalchemy import text
-from sqlalchemy.engine.cursor import CursorFetchStrategy
-from sqlalchemy.engine.row import Row
+from sqlalchemy.engine import Result, Row
 from sqlalchemy.exc import OperationalError, SQLAlchemyError
 from sqlalchemy.orm.query import Query
 from sqlalchemy.orm.session import Session
@@ -45,6 +44,8 @@ from .models import (
 )
 
 if TYPE_CHECKING:
+    from sqlite3.dbapi2 import Cursor as SQLiteCursor
+
     from . import Recorder
 
 _RecorderT = TypeVar("_RecorderT", bound="Recorder")
@@ -131,23 +132,6 @@ def session_scope(
         session.close()
 
 
-def commit(session: Session, work: Any) -> bool:
-    """Commit & retry work: Either a model or in a function."""
-    for _ in range(0, RETRIES):
-        try:
-            if callable(work):
-                work(session)
-            else:
-                session.add(work)
-            session.commit()
-            return True
-        except OperationalError as err:
-            _LOGGER.error("Error executing query: %s", err)
-            session.rollback()
-            time.sleep(QUERY_RETRY_WAIT)
-    return False
-
-
 def execute(
     qry: Query, to_native: bool = False, validate_entity_ids: bool = True
 ) -> list[Row]:
@@ -155,9 +139,12 @@ def execute(
 
     This method also retries a few times in the case of stale connections.
     """
+    debug = _LOGGER.isEnabledFor(logging.DEBUG)
     for tryno in range(0, RETRIES):
         try:
-            timer_start = time.perf_counter()
+            if debug:
+                timer_start = time.perf_counter()
+
             if to_native:
                 result = [
                     row
@@ -170,7 +157,7 @@ def execute(
             else:
                 result = qry.all()
 
-            if _LOGGER.isEnabledFor(logging.DEBUG):
+            if debug:
                 elapsed = time.perf_counter() - timer_start
                 if to_native:
                     _LOGGER.debug(
@@ -202,8 +189,8 @@ def execute_stmt_lambda_element(
     stmt: StatementLambdaElement,
     start_time: datetime | None = None,
     end_time: datetime | None = None,
-    yield_per: int | None = DEFAULT_YIELD_STATES_ROWS,
-) -> list[Row]:
+    yield_per: int = DEFAULT_YIELD_STATES_ROWS,
+) -> Sequence[Row] | Result:
     """Execute a StatementLambdaElement.
 
     If the time window passed is greater than one day
@@ -220,8 +207,8 @@ def execute_stmt_lambda_element(
     for tryno in range(RETRIES):
         try:
             if use_all:
-                return executed.all()  # type: ignore[no-any-return]
-            return executed.yield_per(yield_per)  # type: ignore[no-any-return]
+                return executed.all()
+            return executed.yield_per(yield_per)
         except SQLAlchemyError as err:
             _LOGGER.error("Error executing query: %s", err)
             if tryno == RETRIES - 1:
@@ -252,7 +239,7 @@ def dburl_to_path(dburl: str) -> str:
     return dburl.removeprefix(SQLITE_URL_PREFIX)
 
 
-def last_run_was_recently_clean(cursor: CursorFetchStrategy) -> bool:
+def last_run_was_recently_clean(cursor: SQLiteCursor) -> bool:
     """Verify the last recorder run was recently clean."""
 
     cursor.execute("SELECT end FROM recorder_runs ORDER BY start DESC LIMIT 1;")
@@ -273,7 +260,7 @@ def last_run_was_recently_clean(cursor: CursorFetchStrategy) -> bool:
     return True
 
 
-def basic_sanity_check(cursor: CursorFetchStrategy) -> bool:
+def basic_sanity_check(cursor: SQLiteCursor) -> bool:
     """Check tables to make sure select does not fail."""
 
     for table in TABLES_TO_CHECK:
@@ -300,7 +287,7 @@ def validate_sqlite_database(dbpath: str) -> bool:
     return True
 
 
-def run_checks_on_open_db(dbpath: str, cursor: CursorFetchStrategy) -> None:
+def run_checks_on_open_db(dbpath: str, cursor: SQLiteCursor) -> None:
     """Run checks that will generate a sqlite3 exception if there is corruption."""
     sanity_check_passed = basic_sanity_check(cursor)
     last_run_was_clean = last_run_was_recently_clean(cursor)
@@ -542,6 +529,9 @@ def setup_connection_for_dialect(
                 or MARIA_DB_107 <= version < MARIADB_WITH_FIXED_IN_QUERIES_107
                 or MARIA_DB_108 <= version < MARIADB_WITH_FIXED_IN_QUERIES_108
             )
+
+        # Ensure all times are using UTC to avoid issues with daylight savings
+        execute_on_connection(dbapi_connection, "SET time_zone = '+00:00'")
     elif dialect_name == SupportedDialect.POSTGRESQL:
         # Historically we have marked PostgreSQL as having slow range in select
         # but this may not be true for all versions. We should investigate
@@ -582,20 +572,18 @@ def end_incomplete_runs(session: Session, start_time: datetime) -> None:
         session.add(run)
 
 
+_FuncType = Callable[Concatenate[_RecorderT, _P], bool]
+
+
 def retryable_database_job(
     description: str,
-) -> Callable[
-    [Callable[Concatenate[_RecorderT, _P], bool]],
-    Callable[Concatenate[_RecorderT, _P], bool],
-]:
+) -> Callable[[_FuncType[_RecorderT, _P]], _FuncType[_RecorderT, _P]]:
     """Try to execute a database job.
 
     The job should return True if it finished, and False if it needs to be rescheduled.
     """
 
-    def decorator(
-        job: Callable[Concatenate[_RecorderT, _P], bool]
-    ) -> Callable[Concatenate[_RecorderT, _P], bool]:
+    def decorator(job: _FuncType[_RecorderT, _P]) -> _FuncType[_RecorderT, _P]:
         @functools.wraps(job)
         def wrapper(instance: _RecorderT, *args: _P.args, **kwargs: _P.kwargs) -> bool:
             try:
