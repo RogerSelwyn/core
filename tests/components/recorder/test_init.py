@@ -75,6 +75,8 @@ from .common import (
 )
 
 from tests.common import (
+    MockEntity,
+    MockEntityPlatform,
     async_fire_time_changed,
     fire_time_changed,
     get_test_home_assistant,
@@ -1718,7 +1720,7 @@ async def test_database_lock_without_instance(
     hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
 
     instance = get_instance(hass)
-    with patch.object(instance, "engine", None):
+    with patch.object(instance, "engine"):
         try:
             assert await instance.lock_database()
         finally:
@@ -1988,6 +1990,10 @@ async def test_connect_args_priority(hass: HomeAssistant, config_url) -> None:
         def create_connect_args(self, url):
             return ([], {"charset": "invalid"})
 
+        @property
+        def name(self) -> str:
+            return "mysql"
+
         @classmethod
         def dbapi(cls):
             ...
@@ -2037,12 +2043,6 @@ async def test_excluding_attributes_by_integration(
     """Test that an integration's recorder platform can exclude attributes."""
     state = "restoring_from_db"
     attributes = {"test_attr": 5, "excluded": 10}
-    entry = entity_registry.async_get_or_create(
-        "test",
-        "fake_integration",
-        "recorder",
-    )
-    entity_id = entry.entity_id
     mock_platform(
         hass,
         "fake_integration.recorder",
@@ -2051,7 +2051,12 @@ async def test_excluding_attributes_by_integration(
     hass.config.components.add("fake_integration")
     hass.bus.async_fire(EVENT_COMPONENT_LOADED, {"component": "fake_integration"})
     await hass.async_block_till_done()
-    hass.states.async_set(entity_id, state, attributes)
+
+    entity_id = "test.fake_integration_recorder"
+    platform = MockEntityPlatform(hass, platform_name="fake_integration")
+    entity_platform = MockEntity(entity_id=entity_id, extra_state_attributes=attributes)
+    await platform.async_add_entities([entity_platform])
+
     await async_wait_recording_done(hass)
 
     with session_scope(hass=hass) as session:
@@ -2070,3 +2075,18 @@ async def test_excluding_attributes_by_integration(
     expected = _state_with_context(hass, entity_id)
     expected.attributes = {"test_attr": 5}
     assert state.as_dict() == expected.as_dict()
+
+
+async def test_lru_increases_with_many_entities(
+    recorder_mock: Recorder, hass: HomeAssistant
+) -> None:
+    """Test that the recorder's internal LRU cache increases with many entities."""
+    # We do not actually want to record 4096 entities so we mock the entity count
+    mock_entity_count = 4096
+    with patch.object(
+        hass.states, "async_entity_ids_count", return_value=mock_entity_count
+    ):
+        async_fire_time_changed(hass, dt_util.utcnow() + timedelta(minutes=10))
+        await async_wait_recording_done(hass)
+
+    assert recorder_mock._state_attributes_ids.get_size() == mock_entity_count * 2
