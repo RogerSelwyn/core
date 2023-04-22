@@ -223,7 +223,7 @@ aionanoleaf==0.2.1
 aionotify==0.2.0
 
 # homeassistant.components.notion
-aionotion==3.0.2
+aionotion==2023.04.2
 
 # homeassistant.components.oncue
 aiooncue==0.3.4
@@ -1590,7 +1590,7 @@ pydroid-ipcam==2.0.0
 pyebox==1.1.4
 
 # homeassistant.components.econet
-pyeconet==0.1.18
+pyeconet==0.1.20
 
 # homeassistant.components.edimax
 pyedimax==0.2.1
