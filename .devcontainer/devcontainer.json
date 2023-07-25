@@ -6,16 +6,13 @@
   "postStartCommand": "script/bootstrap",
   "containerEnv": { "DEVCONTAINER": "1" },
   "appPort": ["8123:8123"],
-  "runArgs": ["-e", "GIT_EDITOR=code --wait", "--network=host"],
+  "runArgs": ["-e", "GIT_EDITOR=code --wait"],
   "extensions": [
     "ms-python.vscode-pylance",
     "visualstudioexptteam.vscodeintellicode",
     "redhat.vscode-yaml",
     "esbenp.prettier-vscode",
     "GitHub.vscode-pull-request-github"
-  ],
-  "mounts": [
-    "source=/media/psf/Home/Documents/Development,target=/HADev,type=bind,consistency=cache"
   ],
   // Please keep this file in sync with settings in home-assistant/.vscode/settings.default.json
   "settings": {
