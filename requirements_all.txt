@@ -29,7 +29,7 @@ DoorBirdPy==2.1.0
 HAP-python==4.7.1
 
 # homeassistant.components.tasmota
-HATasmota==0.6.5
+HATasmota==0.7.0
 
 # homeassistant.components.mastodon
 Mastodon.py==1.5.1
@@ -360,7 +360,7 @@ aiosyncthing==0.5.1
 aiotractive==0.5.5
 
 # homeassistant.components.unifi
-aiounifi==53
+aiounifi==55
 
 # homeassistant.components.vlc_telnet
 aiovlc==0.1.0
@@ -635,7 +635,7 @@ datadog==0.15.0
 datapoint==0.9.8
 
 # homeassistant.components.bluetooth
-dbus-fast==1.91.4
+dbus-fast==1.92.0
 
 # homeassistant.components.debugpy
 debugpy==1.6.7
@@ -1368,7 +1368,7 @@ openwrt-luci-rpc==1.1.16
 openwrt-ubus-rpc==0.0.2
 
 # homeassistant.components.opower
-opower==0.0.29
+opower==0.0.30
 
 # homeassistant.components.oralb
 oralb-ble==0.17.6
