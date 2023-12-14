@@ -539,6 +539,7 @@ omit =
     homeassistant/components/hvv_departures/binary_sensor.py
     homeassistant/components/hvv_departures/sensor.py
     homeassistant/components/ialarm/alarm_control_panel.py
+    homeassistant/components/iammeter/const.py
     homeassistant/components/iammeter/sensor.py
     homeassistant/components/iaqualink/binary_sensor.py
     homeassistant/components/iaqualink/climate.py
@@ -1233,7 +1234,8 @@ omit =
     homeassistant/components/stream/hls.py
     homeassistant/components/stream/worker.py
     homeassistant/components/streamlabswater/*
-    homeassistant/components/suez_water/*
+    homeassistant/components/suez_water/__init__.py
+    homeassistant/components/suez_water/sensor.py
     homeassistant/components/supervisord/sensor.py
     homeassistant/components/supla/*
     homeassistant/components/surepetcare/__init__.py
