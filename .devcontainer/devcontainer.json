@@ -6,10 +6,7 @@
   "postStartCommand": "script/bootstrap",
   "containerEnv": { "DEVCONTAINER": "1" },
   "appPort": ["8123:8123"],
-  "runArgs": ["-e", "GIT_EDITOR=code --wait", "--network=host"],
-  "mounts": [
-    "source=/media/psf/Home/Documents/Development,target=/HADev,type=bind,consistency=cache"
-  ],
+  "runArgs": ["-e", "GIT_EDITOR=code --wait"],
   "customizations": {
     "vscode": {
       "extensions": [
