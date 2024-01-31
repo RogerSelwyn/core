@@ -732,6 +732,12 @@
       "integration_type": "virtual",
       "supported_by": "motion_blinds"
     },
+    "bring": {
+      "name": "Bring!",
+      "integration_type": "service",
+      "config_flow": true,
+      "iot_class": "cloud_polling"
+    },
     "broadlink": {
       "name": "Broadlink",
       "integration_type": "hub",
@@ -1495,6 +1501,12 @@
       "integration_type": "hub",
       "config_flow": false,
       "iot_class": "local_polling"
+    },
+    "elvia": {
+      "name": "Elvia",
+      "integration_type": "hub",
+      "config_flow": true,
+      "iot_class": "cloud_polling"
     },
     "emby": {
       "name": "Emby",
@@ -4556,7 +4568,7 @@
     },
     "proximity": {
       "integration_type": "hub",
-      "config_flow": false,
+      "config_flow": true,
       "iot_class": "calculated"
     },
     "proxmoxve": {
@@ -4965,6 +4977,12 @@
     "roku": {
       "name": "Roku",
       "integration_type": "device",
+      "config_flow": true,
+      "iot_class": "local_polling"
+    },
+    "romy": {
+      "name": "ROMY Vacuum Cleaner",
+      "integration_type": "hub",
       "config_flow": true,
       "iot_class": "local_polling"
     },
@@ -6146,6 +6164,12 @@
     },
     "traccar": {
       "name": "Traccar",
+      "integration_type": "hub",
+      "config_flow": true,
+      "iot_class": "local_polling"
+    },
+    "traccar_server": {
+      "name": "Traccar Server",
       "integration_type": "hub",
       "config_flow": true,
       "iot_class": "local_polling"
