@@ -298,7 +298,7 @@ async def setup_platform(
 
 
 @pytest.fixture(autouse=True)
-def reset_diagnostics() -> Generator[None, None, None]:
+def reset_diagnostics() -> Generator[None]:
     """Fixture to reset client library diagnostic counters."""
     yield
     diagnostics.reset()
