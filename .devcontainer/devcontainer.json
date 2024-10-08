@@ -16,7 +16,11 @@
     "-e",
     "GIT_EDITOR=code --wait",
     "--security-opt",
-    "label=disable"
+    "label=disable",
+    "--network=host"
+  ],
+  "mounts": [
+    "source=/media/psf/Home/Documents/Development,target=/HADev,type=bind,consistency=cache"
   ],
   "customizations": {
     "vscode": {
