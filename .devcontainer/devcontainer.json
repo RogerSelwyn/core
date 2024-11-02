@@ -20,7 +20,7 @@
     "--network=host"
   ],
   "mounts": [
-    "source=/media/psf/Home/Documents/Development,target=/HADev,type=bind,consistency=cache"
+    "source=/mnt/hgfs/Documents/Development,target=/HADev,type=bind,consistency=cache"
   ],
   "customizations": {
     "vscode": {
