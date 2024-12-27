@@ -338,7 +338,7 @@ aioridwell==2024.01.0
 aioruckus==0.42
 
 # homeassistant.components.russound_rio
-aiorussound==4.1.0
+aiorussound==4.1.1
 
 # homeassistant.components.ruuvi_gateway
 aioruuvigateway==0.1.0
@@ -1612,7 +1612,7 @@ pyicloud==1.0.0
 pyinsteon==1.6.3
 
 # homeassistant.components.ipma
-pyipma==3.0.7
+pyipma==3.0.8
 
 # homeassistant.components.ipp
 pyipp==0.17.0
