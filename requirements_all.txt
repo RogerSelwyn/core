@@ -2522,7 +2522,7 @@ pyvera==0.3.15
 pyversasense==0.0.6
 
 # homeassistant.components.vesync
-pyvesync==2.1.17
+pyvesync==2.1.18
 
 # homeassistant.components.vizio
 pyvizio==0.1.61
@@ -2796,7 +2796,7 @@ statsd==3.2.1
 steamodd==4.21
 
 # homeassistant.components.stookwijzer
-stookwijzer==1.5.2
+stookwijzer==1.5.4
 
 # homeassistant.components.streamlabswater
 streamlabswater==1.0.1
@@ -3110,7 +3110,7 @@ yeelight==0.7.16
 yeelightsunflower==0.0.10
 
 # homeassistant.components.yolink
-yolink-api==0.4.7
+yolink-api==0.4.8
 
 # homeassistant.components.youless
 youless-api==2.2.0
