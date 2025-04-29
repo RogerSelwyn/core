@@ -139,6 +139,11 @@
         "name": "[%key:common::action::pause%]"
       }
     },
+    "fan": {
+      "fan": {
+        "name": "[%key:component::fan::title%]"
+      }
+    },
     "light": {
       "ambient_light": {
         "name": "Ambient light"
@@ -190,6 +195,12 @@
           "superheating": "Superheating",
           "waiting_to_start": "Waiting to start"
         }
+      },
+      "core_temperature": {
+        "name": "Core temperature"
+      },
+      "core_target_temperature": {
+        "name": "Core target temperature"
       }
     },
     "switch": {
