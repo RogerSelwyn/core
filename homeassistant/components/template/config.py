@@ -9,7 +9,6 @@ import voluptuous as vol
 
 from homeassistant.components.binary_sensor import DOMAIN as BINARY_SENSOR_DOMAIN
 from homeassistant.components.blueprint import (
-    BLUEPRINT_INSTANCE_FIELDS,
     is_blueprint_instance_config,
     schemas as blueprint_schemas,
 )
@@ -134,21 +133,12 @@ CONFIG_SECTION_SCHEMA = vol.All(
             ),
         },
     ),
-    ensure_domains_do_not_have_trigger_or_action(
-        BUTTON_DOMAIN, COVER_DOMAIN, LIGHT_DOMAIN
-    ),
+    ensure_domains_do_not_have_trigger_or_action(BUTTON_DOMAIN, COVER_DOMAIN),
 )
 
 TEMPLATE_BLUEPRINT_SCHEMA = vol.All(
     _backward_compat_schema, blueprint_schemas.BLUEPRINT_SCHEMA
 )
-
-TEMPLATE_BLUEPRINT_INSTANCE_SCHEMA = vol.Schema(
-    {
-        vol.Optional(CONF_NAME): cv.string,
-        vol.Optional(CONF_UNIQUE_ID): cv.string,
-    }
-).extend(BLUEPRINT_INSTANCE_FIELDS.schema)
 
 
 async def _async_resolve_blueprints(
@@ -163,10 +153,11 @@ async def _async_resolve_blueprints(
         raw_config = dict(config)
 
     if is_blueprint_instance_config(config):
-        config = TEMPLATE_BLUEPRINT_INSTANCE_SCHEMA(config)
         blueprints = async_get_blueprints(hass)
 
-        blueprint_inputs = await blueprints.async_inputs_from_config(config)
+        blueprint_inputs = await blueprints.async_inputs_from_config(
+            _backward_compat_schema(config)
+        )
         raw_blueprint_inputs = blueprint_inputs.config_with_inputs
 
         config = blueprint_inputs.async_substitute()
