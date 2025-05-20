@@ -1083,7 +1083,11 @@ async def test_sentence_trigger_overrides_conversation_agent(
     # Ensure prepare succeeds
     with patch(
         "homeassistant.components.assist_pipeline.pipeline.conversation.async_get_agent_info",
-        return_value=conversation.AgentInfo(id="test-agent", name="Test Agent"),
+        return_value=conversation.AgentInfo(
+            id="test-agent",
+            name="Test Agent",
+            supports_streaming=False,
+        ),
     ):
         await pipeline_input.validate()
 
@@ -1161,7 +1165,11 @@ async def test_prefer_local_intents(
     # Ensure prepare succeeds
     with patch(
         "homeassistant.components.assist_pipeline.pipeline.conversation.async_get_agent_info",
-        return_value=conversation.AgentInfo(id="test-agent", name="Test Agent"),
+        return_value=conversation.AgentInfo(
+            id="test-agent",
+            name="Test Agent",
+            supports_streaming=False,
+        ),
     ):
         await pipeline_input.validate()
 
@@ -1225,7 +1233,11 @@ async def test_intent_continue_conversation(
     # Ensure prepare succeeds
     with patch(
         "homeassistant.components.assist_pipeline.pipeline.conversation.async_get_agent_info",
-        return_value=conversation.AgentInfo(id="test-agent", name="Test Agent"),
+        return_value=conversation.AgentInfo(
+            id="test-agent",
+            name="Test Agent",
+            supports_streaming=False,
+        ),
     ):
         await pipeline_input.validate()
 
@@ -1295,7 +1307,11 @@ async def test_intent_continue_conversation(
     # Ensure prepare succeeds
     with patch(
         "homeassistant.components.assist_pipeline.pipeline.conversation.async_get_agent_info",
-        return_value=conversation.AgentInfo(id="test-agent", name="Test Agent"),
+        return_value=conversation.AgentInfo(
+            id="test-agent",
+            name="Test Agent",
+            supports_streaming=False,
+        ),
     ) as mock_prepare:
         await pipeline_input.validate()
 
@@ -1611,29 +1627,23 @@ async def test_chat_log_tts_streaming(
         ),
     )
 
-    received_tts = []
-
-    async def async_stream_tts_audio(
-        request: tts.TTSAudioRequest,
+    async def async_get_tts_audio(
+        message: str,
+        language: str,
+        options: dict[str, Any] | None = None,
     ) -> tts.TTSAudioResponse:
-        """Mock stream TTS audio."""
+        """Mock get TTS audio."""
+        return ("mp3", b"".join([chunk.encode() for chunk in to_stream_tts]))
 
-        async def gen_data():
-            async for msg in request.message_gen:
-                received_tts.append(msg)
-                yield msg.encode()
-
-        return tts.TTSAudioResponse(
-            extension="mp3",
-            data_gen=gen_data(),
-        )
-
-    mock_tts_entity.async_stream_tts_audio = async_stream_tts_audio
-    mock_tts_entity.async_supports_streaming_input = Mock(return_value=True)
+    mock_tts_entity.async_get_tts_audio = async_get_tts_audio
 
     with patch(
         "homeassistant.components.assist_pipeline.pipeline.conversation.async_get_agent_info",
-        return_value=conversation.AgentInfo(id="test-agent", name="Test Agent"),
+        return_value=conversation.AgentInfo(
+            id="test-agent",
+            name="Test Agent",
+            supports_streaming=False,
+        ),
     ):
         await pipeline_input.validate()
 
@@ -1697,7 +1707,6 @@ async def test_chat_log_tts_streaming(
 
     streamed_text = "".join(to_stream_tts)
     assert tts_result == streamed_text
-    assert len(received_tts) == expected_chunks
-    assert "".join(received_tts) == streamed_text
+    assert expected_chunks == 1
 
     assert process_events(events) == snapshot

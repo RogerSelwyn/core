@@ -549,6 +549,7 @@ _CLASS_MATCH: dict[str, list[ClassTypeHintMatch]] = {
                     function_name="async_step_*",
                     arg_types={},
                     return_type="FlowResult",
+                    mandatory=True,
                 ),
             ],
         ),
@@ -561,6 +562,7 @@ _CLASS_MATCH: dict[str, list[ClassTypeHintMatch]] = {
                         0: "ConfigEntry",
                     },
                     return_type="OptionsFlow",
+                    mandatory=True,
                 ),
                 TypeHintMatch(
                     function_name="async_step_dhcp",
@@ -568,6 +570,7 @@ _CLASS_MATCH: dict[str, list[ClassTypeHintMatch]] = {
                         1: "DhcpServiceInfo",
                     },
                     return_type="ConfigFlowResult",
+                    mandatory=True,
                 ),
                 TypeHintMatch(
                     function_name="async_step_hassio",
@@ -575,6 +578,7 @@ _CLASS_MATCH: dict[str, list[ClassTypeHintMatch]] = {
                         1: "HassioServiceInfo",
                     },
                     return_type="ConfigFlowResult",
+                    mandatory=True,
                 ),
                 TypeHintMatch(
                     function_name="async_step_homekit",
@@ -582,6 +586,7 @@ _CLASS_MATCH: dict[str, list[ClassTypeHintMatch]] = {
                         1: "ZeroconfServiceInfo",
                     },
                     return_type="ConfigFlowResult",
+                    mandatory=True,
                 ),
                 TypeHintMatch(
                     function_name="async_step_mqtt",
@@ -589,6 +594,7 @@ _CLASS_MATCH: dict[str, list[ClassTypeHintMatch]] = {
                         1: "MqttServiceInfo",
                     },
                     return_type="ConfigFlowResult",
+                    mandatory=True,
                 ),
                 TypeHintMatch(
                     function_name="async_step_reauth",
@@ -596,6 +602,7 @@ _CLASS_MATCH: dict[str, list[ClassTypeHintMatch]] = {
                         1: "Mapping[str, Any]",
                     },
                     return_type="ConfigFlowResult",
+                    mandatory=True,
                 ),
                 TypeHintMatch(
                     function_name="async_step_ssdp",
@@ -603,6 +610,7 @@ _CLASS_MATCH: dict[str, list[ClassTypeHintMatch]] = {
                         1: "SsdpServiceInfo",
                     },
                     return_type="ConfigFlowResult",
+                    mandatory=True,
                 ),
                 TypeHintMatch(
                     function_name="async_step_usb",
@@ -610,6 +618,7 @@ _CLASS_MATCH: dict[str, list[ClassTypeHintMatch]] = {
                         1: "UsbServiceInfo",
                     },
                     return_type="ConfigFlowResult",
+                    mandatory=True,
                 ),
                 TypeHintMatch(
                     function_name="async_step_zeroconf",
@@ -617,11 +626,13 @@ _CLASS_MATCH: dict[str, list[ClassTypeHintMatch]] = {
                         1: "ZeroconfServiceInfo",
                     },
                     return_type="ConfigFlowResult",
+                    mandatory=True,
                 ),
                 TypeHintMatch(
                     function_name="async_step_*",
                     arg_types={},
                     return_type="ConfigFlowResult",
+                    mandatory=True,
                 ),
             ],
         ),
@@ -632,6 +643,7 @@ _CLASS_MATCH: dict[str, list[ClassTypeHintMatch]] = {
                     function_name="async_step_*",
                     arg_types={},
                     return_type="ConfigFlowResult",
+                    mandatory=True,
                 ),
             ],
         ),
@@ -642,6 +654,7 @@ _CLASS_MATCH: dict[str, list[ClassTypeHintMatch]] = {
                     function_name="async_step_*",
                     arg_types={},
                     return_type="SubentryFlowResult",
+                    mandatory=True,
                 ),
             ],
         ),
@@ -654,6 +667,7 @@ _ENTITY_MATCH: list[TypeHintMatch] = [
     TypeHintMatch(
         function_name="should_poll",
         return_type="bool",
+        mandatory=True,
     ),
     TypeHintMatch(
         function_name="unique_id",
@@ -712,6 +726,7 @@ _ENTITY_MATCH: list[TypeHintMatch] = [
     TypeHintMatch(
         function_name="force_update",
         return_type="bool",
+        mandatory=True,
     ),
     TypeHintMatch(
         function_name="supported_features",
@@ -720,10 +735,12 @@ _ENTITY_MATCH: list[TypeHintMatch] = [
     TypeHintMatch(
         function_name="entity_registry_enabled_default",
         return_type="bool",
+        mandatory=True,
     ),
     TypeHintMatch(
         function_name="entity_registry_visible_default",
         return_type="bool",
+        mandatory=True,
     ),
     TypeHintMatch(
         function_name="attribution",
@@ -736,23 +753,28 @@ _ENTITY_MATCH: list[TypeHintMatch] = [
     TypeHintMatch(
         function_name="async_removed_from_registry",
         return_type=None,
+        mandatory=True,
     ),
     TypeHintMatch(
         function_name="async_added_to_hass",
         return_type=None,
+        mandatory=True,
     ),
     TypeHintMatch(
         function_name="async_will_remove_from_hass",
         return_type=None,
+        mandatory=True,
     ),
     TypeHintMatch(
         function_name="async_registry_entry_updated",
         return_type=None,
+        mandatory=True,
     ),
     TypeHintMatch(
         function_name="update",
         return_type=None,
         has_async_counterpart=True,
+        mandatory=True,
     ),
 ]
 _RESTORE_ENTITY_MATCH: list[TypeHintMatch] = [
@@ -818,10 +840,12 @@ _INHERITANCE_MATCH: dict[str, list[ClassTypeHintMatch]] = {
                 TypeHintMatch(
                     function_name="code_arm_required",
                     return_type="bool",
+                    mandatory=True,
                 ),
                 TypeHintMatch(
                     function_name="supported_features",
                     return_type="AlarmControlPanelEntityFeature",
+                    mandatory=True,
                 ),
                 TypeHintMatch(
                     function_name="alarm_disarm",
@@ -830,6 +854,7 @@ _INHERITANCE_MATCH: dict[str, list[ClassTypeHintMatch]] = {
                     },
                     return_type=None,
                     has_async_counterpart=True,
+                    mandatory=True,
                 ),
                 TypeHintMatch(
                     function_name="alarm_arm_home",
@@ -838,6 +863,7 @@ _INHERITANCE_MATCH: dict[str, list[ClassTypeHintMatch]] = {
                     },
                     return_type=None,
                     has_async_counterpart=True,
+                    mandatory=True,
                 ),
                 TypeHintMatch(
                     function_name="alarm_arm_away",
@@ -846,6 +872,7 @@ _INHERITANCE_MATCH: dict[str, list[ClassTypeHintMatch]] = {
                     },
                     return_type=None,
                     has_async_counterpart=True,
+                    mandatory=True,
                 ),
                 TypeHintMatch(
                     function_name="alarm_arm_night",
@@ -854,6 +881,7 @@ _INHERITANCE_MATCH: dict[str, list[ClassTypeHintMatch]] = {
                     },
                     return_type=None,
                     has_async_counterpart=True,
+                    mandatory=True,
                 ),
                 TypeHintMatch(
                     function_name="alarm_arm_vacation",
@@ -862,6 +890,7 @@ _INHERITANCE_MATCH: dict[str, list[ClassTypeHintMatch]] = {
                     },
                     return_type=None,
                     has_async_counterpart=True,
+                    mandatory=True,
                 ),
                 TypeHintMatch(
                     function_name="alarm_trigger",
@@ -870,6 +899,7 @@ _INHERITANCE_MATCH: dict[str, list[ClassTypeHintMatch]] = {
                     },
                     return_type=None,
                     has_async_counterpart=True,
+                    mandatory=True,
                 ),
                 TypeHintMatch(
                     function_name="alarm_arm_custom_bypass",
@@ -878,6 +908,7 @@ _INHERITANCE_MATCH: dict[str, list[ClassTypeHintMatch]] = {
                     },
                     return_type=None,
                     has_async_counterpart=True,
+                    mandatory=True,
                 ),
             ],
         ),
@@ -919,12 +950,13 @@ _INHERITANCE_MATCH: dict[str, list[ClassTypeHintMatch]] = {
             matches=[
                 TypeHintMatch(
                     function_name="device_class",
-                    return_type=["ButtonDeviceClass", "str", None],
+                    return_type=["ButtonDeviceClass", None],
                 ),
                 TypeHintMatch(
                     function_name="press",
                     return_type=None,
                     has_async_counterpart=True,
+                    mandatory=True,
                 ),
             ],
         ),
@@ -953,6 +985,7 @@ _INHERITANCE_MATCH: dict[str, list[ClassTypeHintMatch]] = {
                         3: "datetime",
                     },
                     return_type="list[CalendarEvent]",
+                    mandatory=True,
                 ),
             ],
         ),
