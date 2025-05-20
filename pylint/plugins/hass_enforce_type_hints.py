@@ -801,18 +801,21 @@ _TOGGLE_ENTITY_MATCH: list[TypeHintMatch] = [
         kwargs_type="Any",
         return_type=None,
         has_async_counterpart=True,
+        mandatory=True,
     ),
     TypeHintMatch(
         function_name="turn_off",
         kwargs_type="Any",
         return_type=None,
         has_async_counterpart=True,
+        mandatory=True,
     ),
     TypeHintMatch(
         function_name="toggle",
         kwargs_type="Any",
         return_type=None,
         has_async_counterpart=True,
+        mandatory=True,
     ),
 ]
 _INHERITANCE_MATCH: dict[str, list[ClassTypeHintMatch]] = {
@@ -1005,18 +1008,22 @@ _INHERITANCE_MATCH: dict[str, list[ClassTypeHintMatch]] = {
                 TypeHintMatch(
                     function_name="entity_picture",
                     return_type="str",
+                    mandatory=True,
                 ),
                 TypeHintMatch(
                     function_name="supported_features",
                     return_type="CameraEntityFeature",
+                    mandatory=True,
                 ),
                 TypeHintMatch(
                     function_name="is_recording",
                     return_type="bool",
+                    mandatory=True,
                 ),
                 TypeHintMatch(
                     function_name="is_streaming",
                     return_type="bool",
+                    mandatory=True,
                 ),
                 TypeHintMatch(
                     function_name="brand",
@@ -1025,6 +1032,7 @@ _INHERITANCE_MATCH: dict[str, list[ClassTypeHintMatch]] = {
                 TypeHintMatch(
                     function_name="motion_detection_enabled",
                     return_type="bool",
+                    mandatory=True,
                 ),
                 TypeHintMatch(
                     function_name="model",
@@ -1033,6 +1041,7 @@ _INHERITANCE_MATCH: dict[str, list[ClassTypeHintMatch]] = {
                 TypeHintMatch(
                     function_name="frame_interval",
                     return_type="float",
+                    mandatory=True,
                 ),
                 TypeHintMatch(
                     function_name="frontend_stream_type",
@@ -1041,6 +1050,7 @@ _INHERITANCE_MATCH: dict[str, list[ClassTypeHintMatch]] = {
                 TypeHintMatch(
                     function_name="available",
                     return_type="bool",
+                    mandatory=True,
                 ),
                 TypeHintMatch(
                     function_name="async_create_stream",
@@ -1073,6 +1083,7 @@ _INHERITANCE_MATCH: dict[str, list[ClassTypeHintMatch]] = {
                         2: "float",
                     },
                     return_type="StreamResponse",
+                    mandatory=True,
                 ),
                 TypeHintMatch(
                     function_name="handle_async_mjpeg_stream",
@@ -1084,26 +1095,31 @@ _INHERITANCE_MATCH: dict[str, list[ClassTypeHintMatch]] = {
                 TypeHintMatch(
                     function_name="is_on",
                     return_type="bool",
+                    mandatory=True,
                 ),
                 TypeHintMatch(
                     function_name="turn_off",
                     return_type=None,
                     has_async_counterpart=True,
+                    mandatory=True,
                 ),
                 TypeHintMatch(
                     function_name="turn_on",
                     return_type=None,
                     has_async_counterpart=True,
+                    mandatory=True,
                 ),
                 TypeHintMatch(
                     function_name="enable_motion_detection",
                     return_type=None,
                     has_async_counterpart=True,
+                    mandatory=True,
                 ),
                 TypeHintMatch(
                     function_name="disable_motion_detection",
                     return_type=None,
                     has_async_counterpart=True,
+                    mandatory=True,
                 ),
                 TypeHintMatch(
                     function_name="async_handle_async_webrtc_offer",
@@ -1113,6 +1129,7 @@ _INHERITANCE_MATCH: dict[str, list[ClassTypeHintMatch]] = {
                         3: "WebRTCSendMessage",
                     },
                     return_type=None,
+                    mandatory=True,
                 ),
                 TypeHintMatch(
                     function_name="async_on_webrtc_candidate",
@@ -1121,6 +1138,7 @@ _INHERITANCE_MATCH: dict[str, list[ClassTypeHintMatch]] = {
                         2: "RTCIceCandidateInit",
                     },
                     return_type=None,
+                    mandatory=True,
                 ),
                 TypeHintMatch(
                     function_name="close_webrtc_session",
@@ -1128,10 +1146,12 @@ _INHERITANCE_MATCH: dict[str, list[ClassTypeHintMatch]] = {
                         1: "str",
                     },
                     return_type=None,
+                    mandatory=True,
                 ),
                 TypeHintMatch(
                     function_name="_async_get_webrtc_client_configuration",
                     return_type="WebRTCClientConfiguration",
+                    mandatory=True,
                 ),
             ],
         ),
@@ -1151,10 +1171,12 @@ _INHERITANCE_MATCH: dict[str, list[ClassTypeHintMatch]] = {
                 TypeHintMatch(
                     function_name="precision",
                     return_type="float",
+                    mandatory=True,
                 ),
                 TypeHintMatch(
                     function_name="temperature_unit",
                     return_type="str",
+                    mandatory=True,
                 ),
                 TypeHintMatch(
                     function_name="current_humidity",
@@ -1171,6 +1193,7 @@ _INHERITANCE_MATCH: dict[str, list[ClassTypeHintMatch]] = {
                 TypeHintMatch(
                     function_name="hvac_modes",
                     return_type="list[HVACMode]",
+                    mandatory=True,
                 ),
                 TypeHintMatch(
                     function_name="hvac_action",
@@ -1229,6 +1252,7 @@ _INHERITANCE_MATCH: dict[str, list[ClassTypeHintMatch]] = {
                     kwargs_type="Any",
                     return_type="None",
                     has_async_counterpart=True,
+                    mandatory=True,
                 ),
                 TypeHintMatch(
                     function_name="set_humidity",
@@ -1237,6 +1261,7 @@ _INHERITANCE_MATCH: dict[str, list[ClassTypeHintMatch]] = {
                     },
                     return_type="None",
                     has_async_counterpart=True,
+                    mandatory=True,
                 ),
                 TypeHintMatch(
                     function_name="set_fan_mode",
@@ -1245,6 +1270,7 @@ _INHERITANCE_MATCH: dict[str, list[ClassTypeHintMatch]] = {
                     },
                     return_type="None",
                     has_async_counterpart=True,
+                    mandatory=True,
                 ),
                 TypeHintMatch(
                     function_name="set_hvac_mode",
@@ -1253,6 +1279,7 @@ _INHERITANCE_MATCH: dict[str, list[ClassTypeHintMatch]] = {
                     },
                     return_type="None",
                     has_async_counterpart=True,
+                    mandatory=True,
                 ),
                 TypeHintMatch(
                     function_name="set_swing_mode",
@@ -1261,6 +1288,7 @@ _INHERITANCE_MATCH: dict[str, list[ClassTypeHintMatch]] = {
                     },
                     return_type="None",
                     has_async_counterpart=True,
+                    mandatory=True,
                 ),
                 TypeHintMatch(
                     function_name="set_preset_mode",
@@ -1269,46 +1297,56 @@ _INHERITANCE_MATCH: dict[str, list[ClassTypeHintMatch]] = {
                     },
                     return_type="None",
                     has_async_counterpart=True,
+                    mandatory=True,
                 ),
                 TypeHintMatch(
                     function_name="turn_aux_heat_on",
                     return_type="None",
                     has_async_counterpart=True,
+                    mandatory=True,
                 ),
                 TypeHintMatch(
                     function_name="turn_aux_heat_off",
                     return_type="None",
                     has_async_counterpart=True,
+                    mandatory=True,
                 ),
                 TypeHintMatch(
                     function_name="turn_on",
                     return_type="None",
                     has_async_counterpart=True,
+                    mandatory=True,
                 ),
                 TypeHintMatch(
                     function_name="turn_off",
                     return_type="None",
                     has_async_counterpart=True,
+                    mandatory=True,
                 ),
                 TypeHintMatch(
                     function_name="supported_features",
                     return_type="ClimateEntityFeature",
+                    mandatory=True,
                 ),
                 TypeHintMatch(
                     function_name="min_temp",
                     return_type="float",
+                    mandatory=True,
                 ),
                 TypeHintMatch(
                     function_name="max_temp",
                     return_type="float",
+                    mandatory=True,
                 ),
                 TypeHintMatch(
                     function_name="min_humidity",
                     return_type="float",
+                    mandatory=True,
                 ),
                 TypeHintMatch(
                     function_name="max_humidity",
                     return_type="float",
+                    mandatory=True,
                 ),
             ],
         ),
