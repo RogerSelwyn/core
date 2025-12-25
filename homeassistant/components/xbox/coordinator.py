@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from datetime import timedelta
+from datetime import datetime, timedelta
 from http import HTTPStatus
 import logging
 
@@ -21,7 +21,6 @@ from pythonxbox.api.provider.titlehub.models import Title
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import ConfigEntryNotReady
-from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers.config_entry_oauth2_flow import (
     ImplementationUnavailableError,
     OAuth2Session,
@@ -81,10 +80,11 @@ class XboxUpdateCoordinator(DataUpdateCoordinator[XboxData]):
             _LOGGER,
             config_entry=config_entry,
             name=DOMAIN,
-            update_interval=timedelta(seconds=10),
+            update_interval=timedelta(seconds=15),
         )
         self.data = XboxData()
         self.current_friends: set[str] = set()
+        self.title_data: dict[str, Title] = {}
 
     async def _async_setup(self) -> None:
         """Set up coordinator."""
@@ -207,17 +207,9 @@ class XboxUpdateCoordinator(DataUpdateCoordinator[XboxData]):
             ) from e
         else:
             presence_data = {self.client.xuid: batch.people[0]}
-            configured_xuids = self.configured_as_entry()
-            presence_data.update(
-                {
-                    friend.xuid: friend
-                    for friend in friends.people
-                    if friend.is_favorite and friend.xuid not in configured_xuids
-                }
-            )
+            presence_data.update({friend.xuid: friend for friend in friends.people})
 
         # retrieve title details
-        title_data: dict[str, Title] = {}
         for person in presence_data.values():
             if presence_detail := next(
                 (
@@ -227,6 +219,12 @@ class XboxUpdateCoordinator(DataUpdateCoordinator[XboxData]):
                 ),
                 None,
             ):
+                if (
+                    person.xuid in self.title_data
+                    and presence_detail.title_id
+                    == self.title_data[person.xuid].title_id
+                ):
+                    continue
                 try:
                     title = await self.client.titlehub.get_title_info(
                         presence_detail.title_id
@@ -250,35 +248,27 @@ class XboxUpdateCoordinator(DataUpdateCoordinator[XboxData]):
                         translation_domain=DOMAIN,
                         translation_key="request_exception",
                     ) from e
-                title_data[person.xuid] = title.titles[0]
+                self.title_data[person.xuid] = title.titles[0]
+            else:
+                self.title_data.pop(person.xuid, None)
+            person.last_seen_date_time_utc = self.last_seen_timestamp(person)
+        return XboxData(new_console_data, presence_data, self.title_data)
 
-        if (
-            self.current_friends - (new_friends := set(presence_data))
-            or not self.current_friends
-        ):
-            self.remove_stale_devices(new_friends)
-        self.current_friends = new_friends
+    def last_seen_timestamp(self, person: Person) -> datetime | None:
+        """Returns the most recent of two timestamps."""
 
-        return XboxData(new_console_data, presence_data, title_data)
+        # The Xbox API constantly fluctuates the "last seen" timestamp between two close values,
+        # causing unnecessary updates. We only accept the most recent one as valild to prevent this.
+        if not (prev_data := self.data.presence.get(person.xuid)):
+            return person.last_seen_date_time_utc
 
-    def remove_stale_devices(self, xuids: set[str]) -> None:
-        """Remove stale devices from registry."""
+        prev_dt = prev_data.last_seen_date_time_utc
+        cur_dt = person.last_seen_date_time_utc
 
-        device_reg = dr.async_get(self.hass)
-        identifiers = (
-            {(DOMAIN, xuid) for xuid in xuids}
-            | {(DOMAIN, console.id) for console in self.consoles.result}
-            | self.configured_as_entry()
-        )
+        if prev_dt and cur_dt:
+            return max(prev_dt, cur_dt)
 
-        for device in dr.async_entries_for_config_entry(
-            device_reg, self.config_entry.entry_id
-        ):
-            if not set(device.identifiers) & identifiers:
-                _LOGGER.debug("Removing stale device %s", device.name)
-                device_reg.async_update_device(
-                    device.id, remove_config_entry_id=self.config_entry.entry_id
-                )
+        return cur_dt
 
     def configured_as_entry(self) -> set[str]:
         """Get xuids of configured entries."""
