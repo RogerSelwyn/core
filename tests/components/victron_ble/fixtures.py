@@ -173,6 +173,50 @@ VICTRON_VEBUS_SERVICE_INFO = BluetoothServiceInfo(
 
 VICTRON_VEBUS_TOKEN = "da3f5fa2860cb1cf86ba7a6d1d16b9dd"
 
+# Same device type header as VEBus (100380) but garbled encrypted payload.
+# Device type will be recognized but decryption will fail.
+VICTRON_VEBUS_BAD_KEY_SERVICE_INFO = BluetoothServiceInfo(
+    name="Inverter Charger",
+    address="01:02:03:04:05:06",
+    rssi=-60,
+    manufacturer_data={
+        0x02E1: bytes.fromhex("100380270cFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
+    },
+    service_data={},
+    service_uuids=[],
+    source="local",
+)
+
+# Same DC/DC converter but with OffReason=0x81 (NO_INPUT_POWER|ENGINE_SHUTDOWN),
+# a real bitmask combination that the current OffReason enum doesn't handle.
+# The key check byte is valid so validate_advertisement_key passes, but
+# parsing raises ValueError → sparse update (signal strength only).
+VICTRON_DC_DC_CONVERTER_UNKNOWN_OFF_REASON_SERVICE_INFO = BluetoothServiceInfo(
+    name="DC/DC Converter",
+    address="01:02:03:04:05:08",
+    rssi=-60,
+    manufacturer_data={0x02E1: bytes.fromhex("1000c0a304121d64ca8d442b90bbde6a8cba")},
+    service_data={},
+    service_uuids=[],
+    source="local",
+)
+
+# Same Victron manufacturer data prefix but with an unrecognized mode byte
+# (0xEE at offset 4).  detect_device_type returns None for this payload,
+# so validate_advertisement_key would also return False.  The reauth logic
+# must treat this as neutral (not a key failure).
+VICTRON_VEBUS_UNRECOGNIZED_MODE_SERVICE_INFO = BluetoothServiceInfo(
+    name="Inverter Charger",
+    address="01:02:03:04:05:06",
+    rssi=-60,
+    manufacturer_data={
+        0x02E1: bytes.fromhex("10038027ee1252dad26f0b8eb39162074d140df410")
+    },
+    service_data={},
+    service_uuids=[],
+    source="local",
+)
+
 VICTRON_VEBUS_SENSORS = {
     "inverter_charger_device_state": "float",
     "inverter_charger_battery_voltage": "14.45",
