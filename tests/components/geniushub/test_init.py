@@ -58,5 +58,5 @@ async def test_setup_client_response_error(
     assert mock_cloud_config_entry.state is ConfigEntryState.SETUP_RETRY
     assert (
         mock_cloud_config_entry.reason
-        == "Connection to geniushub failed (unable to update), message is: 401, message='Unauthorized', url='https://hub'"
+        == "Connection to geniushub failed (unable to update)"
     )

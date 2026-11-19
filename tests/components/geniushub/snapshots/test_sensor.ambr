@@ -1,5 +1,5 @@
 # serializer version: 1
-# name: test_cloud_all_sensors[sensor.geniushub_errors-entry]
+# name: test_cloud_all_sensors[sensor.01j71mqf0ec62d620dgyng2r8h_geniushub_errors-entry]
   EntityRegistryEntrySnapshot({
     'aliases': list([
       None,
@@ -9,11 +9,11 @@
     'config_entry_id': <ANY>,
     'config_subentry_id': None,
     'device_class': None,
-    'device_id': <DeviceEntry identifiers=[('geniushub', 'mock_uid')]>,
+    'device_id': <DeviceEntry identifiers=[('geniushub', '01J71MQF0EC62D620DGYNG2R8H')]>,
     'disabled_by': None,
     'domain': 'sensor',
     'entity_category': None,
-    'entity_id': 'sensor.geniushub_errors',
+    'entity_id': 'sensor.01j71mqf0ec62d620dgyng2r8h_geniushub_errors',
     'has_entity_name': False,
     'hidden_by': None,
     'icon': None,
@@ -36,22 +36,22 @@
     'unit_of_measurement': None,
   })
 # ---
-# name: test_cloud_all_sensors[sensor.geniushub_errors-state]
+# name: test_cloud_all_sensors[sensor.01j71mqf0ec62d620dgyng2r8h_geniushub_errors-state]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'error_list': list([
       ]),
-      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'GeniusHub Errors',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: '01J71MQF0EC62D620DGYNG2R8H GeniusHub Errors',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.geniushub_errors',
+    'entity_id': 'sensor.01j71mqf0ec62d620dgyng2r8h_geniushub_errors',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': '0',
   })
 # ---
-# name: test_cloud_all_sensors[sensor.geniushub_information-entry]
+# name: test_cloud_all_sensors[sensor.01j71mqf0ec62d620dgyng2r8h_geniushub_information-entry]
   EntityRegistryEntrySnapshot({
     'aliases': list([
       None,
@@ -61,11 +61,11 @@
     'config_entry_id': <ANY>,
     'config_subentry_id': None,
     'device_class': None,
-    'device_id': <DeviceEntry identifiers=[('geniushub', 'mock_uid')]>,
+    'device_id': <DeviceEntry identifiers=[('geniushub', '01J71MQF0EC62D620DGYNG2R8H')]>,
     'disabled_by': None,
     'domain': 'sensor',
     'entity_category': None,
-    'entity_id': 'sensor.geniushub_information',
+    'entity_id': 'sensor.01j71mqf0ec62d620dgyng2r8h_geniushub_information',
     'has_entity_name': False,
     'hidden_by': None,
     'icon': None,
@@ -88,23 +88,23 @@
     'unit_of_measurement': None,
   })
 # ---
-# name: test_cloud_all_sensors[sensor.geniushub_information-state]
+# name: test_cloud_all_sensors[sensor.01j71mqf0ec62d620dgyng2r8h_geniushub_information-state]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'GeniusHub Information',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: '01J71MQF0EC62D620DGYNG2R8H GeniusHub Information',
       'information_list': list([
         'Information message',
       ]),
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.geniushub_information',
+    'entity_id': 'sensor.01j71mqf0ec62d620dgyng2r8h_geniushub_information',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': '1',
   })
 # ---
-# name: test_cloud_all_sensors[sensor.geniushub_warnings-entry]
+# name: test_cloud_all_sensors[sensor.01j71mqf0ec62d620dgyng2r8h_geniushub_warnings-entry]
   EntityRegistryEntrySnapshot({
     'aliases': list([
       None,
@@ -114,11 +114,11 @@
     'config_entry_id': <ANY>,
     'config_subentry_id': None,
     'device_class': None,
-    'device_id': <DeviceEntry identifiers=[('geniushub', 'mock_uid')]>,
+    'device_id': <DeviceEntry identifiers=[('geniushub', '01J71MQF0EC62D620DGYNG2R8H')]>,
     'disabled_by': None,
     'domain': 'sensor',
     'entity_category': None,
-    'entity_id': 'sensor.geniushub_warnings',
+    'entity_id': 'sensor.01j71mqf0ec62d620dgyng2r8h_geniushub_warnings',
     'has_entity_name': False,
     'hidden_by': None,
     'icon': None,
@@ -141,15 +141,15 @@
     'unit_of_measurement': None,
   })
 # ---
-# name: test_cloud_all_sensors[sensor.geniushub_warnings-state]
+# name: test_cloud_all_sensors[sensor.01j71mqf0ec62d620dgyng2r8h_geniushub_warnings-state]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'GeniusHub Warnings',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: '01J71MQF0EC62D620DGYNG2R8H GeniusHub Warnings',
       'warning_list': list([
       ]),
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.geniushub_warnings',
+    'entity_id': 'sensor.01j71mqf0ec62d620dgyng2r8h_geniushub_warnings',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,

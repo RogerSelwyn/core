@@ -27,15 +27,22 @@ async def async_setup_entry(
 
     coordinator: GeniusCoordinator = entry.runtime_data
 
-    async_add_entities(
-        GeniusBinarySensor(coordinator, d, GH_BINARY_SENSOR_STATE_ATTR)
-        for d in coordinator.client.device_objs
-        if (
-            GH_RECEIVER_TYPE in d.data[GH_TYPE]
-            and d.data[GH_TYPE] != GH_DUAL_CHANNEL_RECEIVER
-        )
-        or GH_ELECTRIC_SWITCH_TYPE in d.data[GH_TYPE]
-    )
+    entities = []
+    for d in coordinator.client.device_objs:
+        if d.data.get(GH_TYPE):
+            if (
+                GH_RECEIVER_TYPE in d.data[GH_TYPE]
+                and d.data[GH_TYPE] != GH_DUAL_CHANNEL_RECEIVER
+            ) or GH_ELECTRIC_SWITCH_TYPE in d.data[GH_TYPE]:
+                entities.append(
+                    GeniusBinarySensor(coordinator, d, GH_BINARY_SENSOR_STATE_ATTR)
+                )
+        elif d.data["state"].get(GH_BINARY_SENSOR_STATE_ATTR) is not None:
+            entities.append(
+                GeniusBinarySensor(coordinator, d, GH_BINARY_SENSOR_STATE_ATTR)
+            )
+
+    async_add_entities(entities)
 
 
 class GeniusBinarySensor(GeniusDevice, BinarySensorEntity):
@@ -47,7 +54,10 @@ class GeniusBinarySensor(GeniusDevice, BinarySensorEntity):
 
         self._state_attr = state_attr
 
-        self._attr_name = f"{device.type} {device.id}"
+        if device.type:
+            self._attr_name = f"{device.type} {device.id}"
+        else:
+            self._attr_name = f"Electic Switch {device.id}"
 
     @property
     @override

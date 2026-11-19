@@ -38,7 +38,7 @@ class GeniusEntity(CoordinatorEntity):
     @callback
     def _handle_coordinator_update(self) -> None:
         """Process any signals."""
-        self.async_schedule_update_ha_state(force_refresh=True)
+        self.async_schedule_update_ha_state()
 
     @property
     @override
@@ -88,8 +88,12 @@ class GeniusDevice(GeniusEntity):
             (DOMAIN, IDENTIFIER_ZONE.format(self._device.assigned_zone.id)),
         )
 
-        name = f"{self._device.type.title()} {self._device.id}"
-        model = f"{self._device.type} ({self._device.device_model})"
+        if self._device.type:
+            name = f"{self._device.type.title()} {self._device.id}"
+            model = f"{self._device.type} ({self._device.device_model})"
+        else:
+            name = f"{self._device.location} {self._device.id}"
+            model = "Electric Switch"
 
         return DeviceInfo(
             identifiers={(DOMAIN, IDENTIFIER_DEVICE.format(self._device.id))},
@@ -101,12 +105,14 @@ class GeniusDevice(GeniusEntity):
         )
 
     @override
-    async def async_update(self) -> None:
+    @callback
+    def _handle_coordinator_update(self) -> None:
         """Update an entity's state data."""
         if (state := self._device.data.get("_state")) and (
             last_comms := state.get("lastComms")
         ) is not None:  # only via v3 API
             self._last_comms = dt_util.utc_from_timestamp(last_comms)
+            self.async_write_ha_state()
 
 
 class GeniusZone(GeniusEntity):

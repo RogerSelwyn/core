@@ -1,7 +1,6 @@
 """Coordinator for Genius Hub System."""
 
 import logging
-import traceback
 from typing import override
 
 import aiohttp
@@ -54,26 +53,16 @@ class GeniusCoordinator(DataUpdateCoordinator):
             raise UpdateFailed(
                 translation_domain=DOMAIN,
                 translation_key="error_communicating_with_api",
-                translation_placeholders={
-                    "api_err": str(api_err),
-                },
             ) from api_err
         except aiohttp.ClientPayloadError as api_err:
             raise UpdateFailed(
                 translation_domain=DOMAIN,
                 translation_key="error_communicating_with_api",
-                translation_placeholders={
-                    "api_err": str(api_err),
-                },
             ) from api_err
         except (TimeoutError, requests.exceptions.Timeout) as timeout_err:
-            err_traceback = traceback.format_exc()
             raise UpdateFailed(
                 translation_domain=DOMAIN,
                 translation_key="timeout_communicating_with_api",
-                translation_placeholders={
-                    "err_traceback": err_traceback,
-                },
             ) from timeout_err
 
         self.make_debug_log_entries()
