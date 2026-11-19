@@ -77,6 +77,11 @@ class GeniusHubConfigFlow(ConfigFlow, domain=DOMAIN):
                 _LOGGER.exception("Unexpected exception")
                 errors["base"] = "unknown"
             else:
+                if self.source == SOURCE_RECONFIGURE:
+                    return self.async_update_reload_and_abort(
+                        self._get_reconfigure_entry(), data=user_input
+                    )
+
                 await self.async_set_unique_id(response["data"]["UID"])
                 self._abort_if_unique_id_configured()
                 return self.async_create_entry(
@@ -119,6 +124,11 @@ class GeniusHubConfigFlow(ConfigFlow, domain=DOMAIN):
                 _LOGGER.exception("Unexpected exception")
                 errors["base"] = "unknown"
             else:
+                if self.source == SOURCE_RECONFIGURE:
+                    return self.async_update_reload_and_abort(
+                        self._get_reconfigure_entry(), data=user_input
+                    )
+
                 return self.async_create_entry(title=ATTR_MANUFACTURER, data=user_input)
 
         if self.source == SOURCE_RECONFIGURE:
